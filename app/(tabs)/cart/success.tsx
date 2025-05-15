@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { router } from 'expo-router';
 import Animated, { FadeIn } from 'react-native-reanimated';
-import { CheckCircle2, ArrowRight } from 'lucide-react-native';
+import { CircleCheck as CheckCircle2, ArrowRight } from 'lucide-react-native';
 import Colors from '@/constants/Colors';
 import { typography, spacing } from '@/constants/Theme';
 import Button from '@/components/Button';
