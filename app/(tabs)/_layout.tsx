@@ -1,7 +1,7 @@
 import { Tabs } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
-import { Home, Search, ShoppingBag, User } from 'lucide-react-native';
+import { Chrome as Home, Search, ShoppingBag, User } from 'lucide-react-native';
 
 export default function TabLayout() {
   return (
