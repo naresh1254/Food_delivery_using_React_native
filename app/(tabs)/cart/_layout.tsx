@@ -2,10 +2,10 @@ import { Stack } from 'expo-router';
 
 export default function CartLayout() {
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="index" />
-      <Stack.Screen name="checkout" />
-      <Stack.Screen name="success" />
+    <Stack>
+      <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="checkout" options={{ headerShown: false }} />
+      <Stack.Screen name="success" options={{ headerShown: false }} />
     </Stack>
   );
 }
