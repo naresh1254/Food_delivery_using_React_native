@@ -1,7 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Platform } from 'react-native';
 import { Plus } from 'lucide-react-native';
-import Animated, { FadeInRight } from 'react-native-reanimated';
+import Animated, { 
+  FadeInRight,
+  useAnimatedStyle,
+  withSpring,
+  useSharedValue
+} from 'react-native-reanimated';
 import Colors from '@/constants/Colors';
 import { fonts } from '@/constants/Theme';
 import { MenuItem as MenuItemType } from '@/types/MenuItem';
@@ -15,11 +20,23 @@ interface MenuItemProps {
 export default function MenuItem({ item, onAddToCart, index = 0 }: MenuItemProps) {
   const colors = Colors.light;
   const delay = index * 50;
+  const scale = useSharedValue(1);
+
+  const handlePress = () => {
+    scale.value = withSpring(0.95, {}, () => {
+      scale.value = withSpring(1);
+    });
+    onAddToCart(item);
+  };
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
 
   return (
     <Animated.View 
       entering={FadeInRight.delay(delay).duration(300)}
-      style={styles.container}
+      style={[styles.container, animatedStyle]}
     >
       <View style={styles.content}>
         <View style={styles.details}>
@@ -62,7 +79,7 @@ export default function MenuItem({ item, onAddToCart, index = 0 }: MenuItemProps
           
           <TouchableOpacity
             style={styles.addButton}
-            onPress={() => onAddToCart(item)}
+            onPress={handlePress}
             activeOpacity={0.8}
           >
             <Plus size={20} color={colors.background} />

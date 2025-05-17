@@ -8,6 +8,8 @@ import { fonts, typography, spacing } from '@/constants/Theme';
 import SearchBar from '@/components/SearchBar';
 import CategoryPill from '@/components/CategoryPill';
 import RestaurantCard from '@/components/RestaurantCard';
+import Toast from '@/components/Toast';
+import { useToast } from '@/hooks/useToast';
 import { restaurants, categories } from '@/data/mockData';
 import { Restaurant } from '@/types/Restaurant';
 import { Category } from '@/types/Category';
@@ -16,6 +18,7 @@ export default function HomeScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategoryId, setSelectedCategoryId] = useState('1');
   const [refreshing, setRefreshing] = useState(false);
+  const { isVisible, message, showToast, hideToast } = useToast();
   const colors = Colors.light;
   
   const featuredRestaurants = restaurants.filter(r => r.featured);
@@ -29,10 +32,15 @@ export default function HomeScreen() {
   
   const handleCategoryPress = useCallback((categoryId: string) => {
     setSelectedCategoryId(categoryId);
+    const category = categories.find(c => c.id === categoryId);
+    if (category) {
+      showToast(`Showing ${category.name.toLowerCase()} restaurants 🍽️`);
+    }
   }, []);
   
   const onRefresh = useCallback(() => {
     setRefreshing(true);
+    showToast('Refreshing restaurants list... 🔄');
     // Simulate loading
     setTimeout(() => {
       setRefreshing(false);
@@ -62,8 +70,13 @@ export default function HomeScreen() {
           <View style={styles.searchContainer}>
             <SearchBar 
               value={searchQuery} 
-              onChangeText={setSearchQuery} 
-              onFilterPress={() => {}} 
+              onChangeText={(text) => {
+                setSearchQuery(text);
+                if (text) {
+                  showToast(`Searching for "${text}" 🔍`);
+                }
+              }}
+              onFilterPress={() => showToast('Filters coming soon! 🔧')} 
             />
           </View>
         </Animated.View>
@@ -126,6 +139,12 @@ export default function HomeScreen() {
           ))}
         </Animated.View>
       </ScrollView>
+
+      <Toast 
+        message={message}
+        isVisible={isVisible}
+        onHide={hideToast}
+      />
     </SafeAreaView>
   );
 }
