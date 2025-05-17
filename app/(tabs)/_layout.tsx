@@ -1,7 +1,9 @@
 import { Tabs } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
-import { Chrome as Home, Search, ShoppingBag, User } from 'lucide-react-native';
+import { Chrome as Home, Search, ShoppingBag, Package, User } from 'lucide-react-native';
+import Colors from '@/constants/Colors';
+import { fonts } from '@/constants/Theme';
 
 export default function TabLayout() {
   return (
@@ -40,13 +42,8 @@ export default function TabLayout() {
     >
       <Tabs.Screen name="index" />
       <Tabs.Screen name="search" />
-      <Tabs.Screen 
-        name="cart"
-        options={{
-          href: '/cart',
-          headerShown: false
-        }}
-      />
+      <Tabs.Screen name="cart" />
+      <Tabs.Screen name="orders" />
       <Tabs.Screen name="profile" />
     </Tabs>
   );
@@ -63,6 +60,8 @@ function getTabIcon(routeName: string, color: string, size: number, focused: boo
       return <Search color={color} size={iconSize} strokeWidth={strokeWidth} />;
     case 'cart':
       return <ShoppingBag color={color} size={iconSize} strokeWidth={strokeWidth} />;
+    case 'orders':
+      return <Package color={color} size={iconSize} strokeWidth={strokeWidth} />;
     case 'profile':
       return <User color={color} size={iconSize} strokeWidth={strokeWidth} />;
     default:
@@ -78,6 +77,8 @@ function getLabelText(routeName: string) {
       return 'Search';
     case 'cart':
       return 'Cart';
+    case 'orders':
+      return 'Orders';
     case 'profile':
       return 'Profile';
     default:
